@@ -3,6 +3,8 @@ package com.ecristobale.hibernate.entity;
 // use JPA Annotation instead of Hibernate because JPA is a standard specification
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,6 +13,7 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // Let MySQL handle the AUTO_INCREMENT
 	@Column(name="id")
 	private int id;
 	
