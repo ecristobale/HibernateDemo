@@ -22,9 +22,9 @@ public class PrimaryKeyGeneration {
 		try {
 			// create 3 User objects
 			System.out.println("1. Creating 3 new User objects and after that beginning a new transaction");
-			User tempUser1 = new User("User1", "Cristobal", "eduardocristobal@email.email");
-			User tempUser2 = new User("User2", "Cristobal", "eduardocristobal@email.email");
-			User tempUser3 = new User("User3", "Cristobal", "eduardocristobal@email.email");
+			User tempUser1 = new User("User1", "Same", "eduardocristobal@email.email");
+			User tempUser2 = new User("User2", "Different", "eduardocristobal@email.email");
+			User tempUser3 = new User("User3", "Same", "eduardocristobal@email.email");
 
 			// begin transaction
 			session.beginTransaction();
