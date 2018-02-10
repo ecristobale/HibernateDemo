@@ -1,5 +1,7 @@
 package com.ecristobale.hibernate.entity;
 
+import java.util.Date;
+
 // use JPA Annotation instead of Hibernate because JPA is a standard specification
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.ecristobale.hibernate.utils.DateUtils;
 
 @Entity
 @Table(name="user")
@@ -22,15 +28,20 @@ public class User {
 	
 	@Column(name="last_name")
 	private String lastName;
+	
+	@Column(name="date_of_birth")
+	@Temporal(TemporalType.DATE)
+	private Date dateOfBirth;
 
 	@Column(name="email")
 	private String email;
 	
 	public User() {}
 
-	public User(String firstName, String lastName, String email) {
+	public User(String firstName, String lastName, Date dateOfBirth, String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.dateOfBirth = dateOfBirth;
 		this.email = email;
 	}
 
@@ -66,8 +77,19 @@ public class User {
 		this.email = email;
 	}
 
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName 
+				+ ", dateOfBirth=" + DateUtils.formatDate(dateOfBirth) + ", email=" + email + "]";
 	}
+
+	
 }

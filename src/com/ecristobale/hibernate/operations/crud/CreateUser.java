@@ -1,10 +1,14 @@
 package com.ecristobale.hibernate.operations.crud;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.ecristobale.hibernate.entity.User;
+import com.ecristobale.hibernate.utils.DateUtils;
 
 /**
  * @author Eduardo Cristóbal Enríquez
@@ -23,7 +27,7 @@ import com.ecristobale.hibernate.entity.User;
  */
 public class CreateUser {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		// create session factory
 		SessionFactory factory = new Configuration()
@@ -34,10 +38,13 @@ public class CreateUser {
 		// create session
 		Session session = factory.getCurrentSession();
 		
+		String theDateOfBirthStr = "03/11/1988";
+        Date theDateOfBirth = DateUtils.parseDate(theDateOfBirthStr);
+		
 		try {
 			// create User object
 			System.out.println("1. Creating new User object and after that beginning a new transaction");
-			User tempUser = new User("Eduardo", "Cristobal", "eduardocristobal@email.email");
+			User tempUser = new User("Eduardo", "Cristobal", theDateOfBirth, "eduardocristobal@email.email");
 
 			// begin transaction
 			session.beginTransaction();

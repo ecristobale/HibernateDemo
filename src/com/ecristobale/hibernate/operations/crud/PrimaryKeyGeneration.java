@@ -1,14 +1,18 @@
 package com.ecristobale.hibernate.operations.crud;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.ecristobale.hibernate.entity.User;
+import com.ecristobale.hibernate.utils.DateUtils;
 
 public class PrimaryKeyGeneration {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		// create session factory
 		SessionFactory factory = new Configuration()
@@ -18,13 +22,16 @@ public class PrimaryKeyGeneration {
 		
 		// create session
 		Session session = factory.getCurrentSession();
-		
+
+		String theDateOfBirthStr = "03/11/1988";
+        Date theDateOfBirth = DateUtils.parseDate(theDateOfBirthStr);
+        
 		try {
 			// create 3 User objects
 			System.out.println("1. Creating 3 new User objects and after that beginning a new transaction");
-			User tempUser1 = new User("User1", "Same", "eduardocristobal@email.email");
-			User tempUser2 = new User("User2", "Different", "eduardocristobal@email.email");
-			User tempUser3 = new User("User3", "Same", "eduardocristobal@email.email");
+			User tempUser1 = new User("User1", "Same", theDateOfBirth, "eduardocristobal@email.email");
+			User tempUser2 = new User("User2", "Different", theDateOfBirth, "eduardocristobal@email.email");
+			User tempUser3 = new User("User3", "Same", theDateOfBirth, "eduardocristobal@email.email");
 
 			// begin transaction
 			session.beginTransaction();
