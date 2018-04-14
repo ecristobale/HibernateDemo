@@ -27,7 +27,7 @@ import com.ecristobale.hibernate.entity.InstructorDetail;
  *				short-lived object (dropped away after do the DB operation).
  *				Retrieved from SessionFactory.
  */
-public class ReadInstructor {
+public class UpdateInstructorDetail {
 
 	public static void main(String[] args) throws IOException {
 
@@ -49,7 +49,7 @@ public class ReadInstructor {
 			
 			// Ask for a positive number
 			do {
-				System.out.print("\n1. Please introduce the ID of the object you want to retrieve from DB: ");
+				System.out.print("\n1. Please introduce the ID of the object you want to update from DB: ");
 				input = keyboard.readLine();
 			} while (!isPositiveNumber(input));
 			
@@ -62,15 +62,20 @@ public class ReadInstructor {
 			System.out.println("2. Inside Transaction: retrieving the Instructor with id: " + id);
 			Instructor myInstructor = session.get(Instructor.class, id);
 			
+			if(myInstructor !=null) {
+				//modify one value from its InstructorDetail
+				myInstructor.getInstructorDetail().setHobby("MODIFIED " + myInstructor.getInstructorDetail().getHobby());
+			} else {
+				System.out.println("No instructor found in database for the id: " + id);
+			}
+			
 			// commit transaction from session
 			session.getTransaction().commit();
 			
-			System.out.println("3. Transaction commited. Instructor retrieved with id = " + id);
+			System.out.println("3. Transaction commited. Instructor details updated with id = " + id);
 			
 			if(myInstructor != null) {
 				System.out.println("Instructor: " + myInstructor);
-			}else {
-				System.out.println("No user found in database for the id: " + id);
 			}
 			
 		} finally {

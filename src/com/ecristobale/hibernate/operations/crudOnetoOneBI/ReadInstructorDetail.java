@@ -70,7 +70,7 @@ public class ReadInstructorDetail {
 				System.out.println("InstructorDetailBI: " + myInstructorDetail);
 				System.out.println("InstructorBI: " + myInstructorDetail.getInstructorBI());
 			}else {
-				System.out.println("No user found in database for the id: " + id);
+				System.out.println("No InstructorDetail found in database for the id: " + id);
 			}
 			
 		} finally {

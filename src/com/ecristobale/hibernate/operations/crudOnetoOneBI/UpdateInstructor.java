@@ -1,4 +1,4 @@
-package com.ecristobale.hibernate.operations.crudOnetoOne;
+package com.ecristobale.hibernate.operations.crudOnetoOneBI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,10 +7,9 @@ import java.io.InputStreamReader;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 
-import com.ecristobale.hibernate.entity.Instructor;
-import com.ecristobale.hibernate.entity.InstructorDetail;
+import com.ecristobale.hibernate.entity.InstructorBI;
+import com.ecristobale.hibernate.entity.InstructorDetailBI;
 
 /**
  * @author Eduardo Cristóbal Enríquez
@@ -27,15 +26,15 @@ import com.ecristobale.hibernate.entity.InstructorDetail;
  *				short-lived object (dropped away after do the DB operation).
  *				Retrieved from SessionFactory.
  */
-public class ReadInstructor {
+public class UpdateInstructor {
 
 	public static void main(String[] args) throws IOException {
 
 		// create session factory
 		SessionFactory factory = new Configuration()
 								.configure("hibernate.cfg.xml")
-								.addAnnotatedClass(Instructor.class)
-								.addAnnotatedClass(InstructorDetail.class)
+								.addAnnotatedClass(InstructorBI.class)
+								.addAnnotatedClass(InstructorDetailBI.class)
 								.buildSessionFactory();
 		
 		// create session
@@ -49,7 +48,7 @@ public class ReadInstructor {
 			
 			// Ask for a positive number
 			do {
-				System.out.print("\n1. Please introduce the ID of the object you want to retrieve from DB: ");
+				System.out.print("\n1. Please introduce the ID of the Instructor Detail you want to update from DB: ");
 				input = keyboard.readLine();
 			} while (!isPositiveNumber(input));
 			
@@ -58,19 +57,25 @@ public class ReadInstructor {
 			// begin transaction
 			session.beginTransaction();
 			
-			// Retrieve the Instructor and its details because of CascadeType.ALL
-			System.out.println("2. Inside Transaction: retrieving the Instructor with id: " + id);
-			Instructor myInstructor = session.get(Instructor.class, id);
+			// Retrieve the object
+			System.out.println("2. Inside Transaction: retrieving the InstructorDetail with id: " + id);
+			InstructorDetailBI myInstructorDetail = session.get(InstructorDetailBI.class, id);
+			
+			if(myInstructorDetail != null) {
+				myInstructorDetail.getInstructorBI().setEmail("MODIFIED " + myInstructorDetail.getInstructorBI().getEmail());
+			}else {
+				System.out.println("No InstructorDetail found in database for the id: " + id);
+			}
 			
 			// commit transaction from session
 			session.getTransaction().commit();
 			
-			System.out.println("3. Transaction commited. Instructor retrieved with id = " + id);
+			System.out.println("3. Transaction commited.");
 			
-			if(myInstructor != null) {
-				System.out.println("Instructor: " + myInstructor);
-			}else {
-				System.out.println("No user found in database for the id: " + id);
+			if(myInstructorDetail != null) {
+				System.out.println("Instructor from InstructorDetail updated with id of the InstructorDetail = " + id);
+				System.out.println("InstructorDetailBI: " + myInstructorDetail);
+				System.out.println("InstructorBI: " + myInstructorDetail.getInstructorBI());
 			}
 			
 		} finally {
